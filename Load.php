@@ -1,6 +1,5 @@
 <?php
-namespace infrajs\infra;
-use infrajs\infra\Config;
+namespace infrajs\load;
 use infrajs\once\Once;
 use infrajs\cache\Cache;
 use infrajs\path\Path;
@@ -27,15 +26,7 @@ class Load {
 		Once::clear('Load::load', $path);
 		Once::clear('Load::loadTEXT', $path);
 	}
-	public static function req($path)
-	{
-		$args=array($path);
-		Once::exec('Load::req', function($path) {
-			$rpath = Path::theme($path);
-			if (!$rpath) throw new \Exception('Load::req - не найден путь '.$path);
-			require_once $rpath;//Просто require позволяет загрузить самого себя. А мы текущий скрипт не добавляем в список подключённых
-		}, $args);
-	}
+
 	public static function srcInfo($src)
 	{
 		$p = explode('?', $src);
