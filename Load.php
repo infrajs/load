@@ -175,8 +175,8 @@ class Load {
 		$res = Once::exec('Load::load', function ($path){
 			//php файлы эмитация веб запроса
 			//всё остальное file_get_content
-			$res=array();
-			$res['cache'] = Cache::check(function () use ($path, &$res) {
+			$_r_e_s_=array();
+			$_r_e_s_['cache'] = Cache::check(function () use ($path, &$_r_e_s_) {
 				$load_path = Path::theme($path);
 				$fdata = Load::srcinfo($load_path);
 				if ($load_path && $fdata['file']) {
@@ -225,14 +225,15 @@ class Load {
 					} else {
 						$data = file_get_contents($plug);
 					}
-					$res['status'] = 200;
-					$res['value'] = $data;
+					$_r_e_s_=array(); //Если в include это имя использовалось. Главное чтобы оно небыло ссылкой &
+					$_r_e_s_['status'] = 200;
+					$_r_e_s_['value'] = $data;
 				} else {
-					$res['status'] = 404;
-					$res['value'] = '';
+					$_r_e_s_['status'] = 404;
+					$_r_e_s_['value'] = '';
 				}
 			});
-			return $res;
+			return $_r_e_s_;
 		}, $args);
 
 		if (!$res['cache']) header('Cache-Control: no-store');
@@ -273,7 +274,7 @@ class Load {
 			var_dump($json);
 			var_dump($data);
 			echo "\n".'</pre>';
-			exit;
+			throw new \Exception("json_deoce error");
 		}
 
 		return $data;
