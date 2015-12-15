@@ -45,11 +45,11 @@ class Load {
 				$file = preg_replace("/^\~/", '', $file);
 				$p[] = '~';
 			} else if (preg_match("/^\*/", $file)) {
-				$file = preg_replace("/^\*/", '', $file);
-				$p[] = '*';
+				$file = preg_replace("/^\-/", '', $file);
+				$p[] = '-';
 			} else if (preg_match("/^\|/", $file)) {
-				$file = preg_replace("/^\|/", '', $file);
-				$p[] = '|';
+				$file = preg_replace("/^\!/", '', $file);
+				$p[] = '!';
 			}
 		}
 		$folder = implode('/', $p);

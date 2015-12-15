@@ -30,6 +30,7 @@ infra.store=function(name){
 	return this.store.data[name];
 }
 infra.require=function(path){
+	depricated;
 	var store=infra.store('require');
 	if(store[path])return store[path].value;
 	store[path]={value:true};//Метку надо ставить заранее чтобы небыло зацикливаний
@@ -128,9 +129,17 @@ infra.srcinfo=function(src){
 	p=file.split('/');
 	file=p.pop();
 
-	if(p.length==0&&file.test(/^\*/)){
-		file=file.replace(/^\*/,'');
-		p.push('*');
+	if(p.length==0&&file.test(/^\-/)){
+		file=file.replace(/^\-/,'');
+		p.push('-');
+	}
+	if(p.length==0&&file.test(/^\!/)){
+		file=file.replace(/^\!/,'');
+		p.push('!');
+	}
+	if(p.length==0&&file.test(/^\~/)){
+		file=file.replace(/^\~/,'');
+		p.push('~');
 	}
 	var folder=p.join('/');
 	if(folder)folder+='/';

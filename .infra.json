@@ -1,5 +1,5 @@
 {
 	"load":{
-		"require":"*load/infra.php"
+		"require":"-load/infra.php"
 	}
 }
