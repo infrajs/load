@@ -30,7 +30,7 @@ infra.store=function(name){
 	return this.store.data[name];
 }
 infra.require=function(path){
-	depricated;
+	debugger;
 	var store=infra.store('require');
 	if(store[path])return store[path].value;
 	store[path]={value:true};//Метку надо ставить заранее чтобы небыло зацикливаний

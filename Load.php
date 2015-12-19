@@ -1,7 +1,7 @@
 <?php
 namespace infrajs\load;
 use infrajs\once\Once;
-use infrajs\cache\Cache;
+use infrajs\nostore\Nostore;
 use infrajs\path\Path;
 
 /*
@@ -116,7 +116,7 @@ class Load {
 		$args=array($path);
 		$res=Once::exec('Load::loadJSON', function ($path){
 			$res=array();
-			$res['cache'] = Cache::check(function () use ($path, &$text) {
+			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
 			});
 			if (is_string($text)) {
@@ -127,7 +127,7 @@ class Load {
 			return $res;
 		}, $args);
 		
-		if (!$res['cache']) header('Cache-Control: no-store');
+		if (!$res['cache']) Nostore::on();
 		return $res['value'];
 		
 		return $res['value'];
@@ -137,7 +137,7 @@ class Load {
 		$args=array($path);
 		$res=Once::exec('Load::loadTEXT', function ($path){
 			$res=array();
-			$res['cache'] = Cache::check(function () use ($path, &$text) {
+			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
 			});
 			if (is_null($text)) $text = '';
@@ -150,7 +150,7 @@ class Load {
 		}, $args);
 	
 		
-		if (!$res['cache']) header('Cache-Control: no-store');
+		if (!$res['cache']) Nostore::on();
 		return $res['value'];
 		
 		return $res['value'];
@@ -176,7 +176,7 @@ class Load {
 			//php файлы эмитация веб запроса
 			//всё остальное file_get_content
 			$_r_e_s_=array();
-			$_r_e_s_['cache'] = Cache::check(function () use ($path, &$_r_e_s_) {
+			$_r_e_s_['cache'] = !Nostore::check(function () use ($path, &$_r_e_s_) {
 				$load_path = Path::theme($path);
 				$fdata = Load::srcinfo($load_path);
 				if ($load_path && $fdata['file']) {
@@ -236,7 +236,7 @@ class Load {
 			return $_r_e_s_;
 		}, $args);
 
-		if (!$res['cache']) header('Cache-Control: no-store');
+		if (!$res['cache']) Nostore::on();
 		return $res['value'];
 	}
 	/*
