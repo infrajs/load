@@ -269,12 +269,11 @@ class Load {
 		$json2 = preg_replace("#(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)#", '', $json);
 		$data = json_decode($json2, true, 512);//JSON_BIGINT_AS_STRING в javascript тоже нельзя такие цифры... архитектурная ошибка.
 		if (!$soft && $json2 && is_null($data) && !in_array($json2, array('null'))) {
-			echo '<h1>json decode error</h1>';
 			echo "\n".'<pre>'."\n";
 			var_dump($json);
 			var_dump($data);
 			echo "\n".'</pre>';
-			throw new \Exception("json_deoce error");
+			throw new \Exception("json_decode error");
 		}
 
 		return $data;
