@@ -177,6 +177,12 @@ class Load {
 			//всё остальное file_get_content
 			$_r_e_s_=array();
 			$_r_e_s_['cache'] = !Nostore::check(function () use ($path, &$_r_e_s_) {
+
+				if (Path::isDir($path)) {
+					$p=explode('?', $path, 2);
+					$p[0] .= 'index.php';
+					$path = implode('?', $p);
+				}
 				$load_path = Path::theme($path);
 				$fdata = Load::srcinfo($load_path);
 				if ($load_path && $fdata['file']) {
