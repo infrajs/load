@@ -278,7 +278,6 @@ class Load {
 			echo "\n".'<pre>'."\n";
 			var_dump($json);
 			var_dump($data);
-			echo "\n".'</pre>';
 			throw new \Exception("json_decode error");
 		}
 
