@@ -50,8 +50,9 @@ infra.require=function(path){
 	 
 }
 infra.theme=function(path){
-	if(/^[\*~]/.test(path))return '?'+encodeURI(path);
-	else return path;
+	if (/^[\*~!]/.test(path)) path='?'+encodeURI(path);
+
+	return infrajs.root+path;
 }
 infra.loadJSON=function(path){
 	var store=infra.store('loadJSON');
