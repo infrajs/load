@@ -57,12 +57,10 @@ infra.theme=function(path){
 infra.loadJSON=function(path){
 	var store=infra.store('loadJSON');
 	if(store[path]){
-		infra.com=store[path].com;
 		return store[path].value;
 	}
 	var text=infra.loadTEXT(path);
 	store[path]={};
-	store[path].com=infra.com;
 	try{
 		store[path].value=eval('('+text+')');
 		store[path].status=true;
@@ -77,7 +75,6 @@ infra._load=function(path){//Такая функция есть в php.. воз�
 infra.loadTEXT=function(path){
 	var store=infra.store('loadTEXT');
 	if(store[path]){
-		infra.com=store[path].com;
 		return store[path].value;
 	}
 	var load_path=infra.theme(path);
@@ -101,17 +98,12 @@ infra.loadTEXT=function(path){
 		if(transport.status == 200){
 			res.status=200;
 			res.value=transport.responseText;
-			res.com=transport.getResponseHeader('infra-com');			
-			if(res.com){
-				res.com=eval('('+res.com+')');
-			}
 		}else{
 			res.status=transport.status;
 			res.value='';
 		}
 	}
 	store[path]=res;
-	infra.com=store[path].com;
 	return store[path].value;
 }
 infra.forFS=function(str){
