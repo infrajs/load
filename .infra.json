@@ -1,4 +1,4 @@
 {
 	"require":"infra.php",
-	"js":["load.js","infra.js.php"]
+	"js":"load.js"
 }
