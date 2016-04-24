@@ -272,9 +272,10 @@ class Load {
 	public static function json_decode($json, $soft = false)
 	{
 		//soft если об ошибке не нужно сообщать
-		$json2 = preg_replace("#(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)#", '', $json);
-		$data = json_decode($json2, true, 512);//JSON_BIGINT_AS_STRING в javascript тоже нельзя такие цифры... архитектурная ошибка.
-		if (!$soft && $json2 && is_null($data) && !in_array($json2, array('null'))) {
+		//$json2 = preg_replace("#(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)#", '', $json);
+		
+		$data = json_decode($json, true, 512);//JSON_BIGINT_AS_STRING в javascript тоже нельзя такие цифры... архитектурная ошибка.
+		if (!$soft && $json && is_null($data) && !in_array($json, array('null'))) {
 			echo "\n".'<pre>'."\n";
 			var_dump($json);
 			var_dump($data);
