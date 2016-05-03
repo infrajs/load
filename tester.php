@@ -44,3 +44,10 @@ assert($ans['fname'] === '110316.test@24');
 assert($ans['file'] === '110316.test@24.txt');
 assert($ans['date'] === '110316');
 assert($ans['ext'] === 'txt');
+
+assert(!!Load::loadTEXT('-load/load.js'));
+
+$conf = Load::loadJSON('-load/.infra.json');
+assert($conf['tester']=='tester.php');
+
+echo '{"result":1,"msg":"Все тесты выполнены"}';

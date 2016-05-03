@@ -1,4 +1,12 @@
-# Загрузка json-данных
-**Disclaimer:** Module is not complete and not ready for use yet.
+# Загрузка данных
+Получение json данных сгенерированных php без использования file_get_contents. С помощью require и return $data.
+Единообразное получение json-ответа php файлов и json данных на сервере и на клиенте.
 
-Единообразное получение json-ответа php файлов и json данне на сервере и на клиенте
+## Установка через composer
+{
+	"require":{
+		"infrajs/load":"~1"
+	}
+}
+
+## Использование
