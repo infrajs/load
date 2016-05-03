@@ -49,11 +49,12 @@ infra.require=function(path){
 	document.getElementsByTagName('head')[0].appendChild(script);//document.head в ie не работает
 	 
 }
-infra.theme=function(path){
-	if (/^[\*~!]/.test(path)) path='?'+encodeURI(path);
 
+infra.theme=function(path){
+	//if (/^[\-~!]/.test(path)) path='?'+encodeURI(path);
 	return URN.getRoot()+path;
 }
+//infra.theme.prefix = '-nostore=true';
 infra.loadJSON=function(path){
 	var store=infra.store('loadJSON');
 	if(store[path]){
@@ -77,7 +78,11 @@ infra.loadTEXT=function(path){
 	if(store[path]){
 		return store[path].value;
 	}
-	var load_path=infra.theme(path);
+	var load_path = infra.theme(path);
+	if (infra.theme.prefix) {
+		if (/[\?]/.test(load_path)) load_path += '&' + infra.theme.prefix;
+		else load_path += '?' + infra.theme.prefix;
+	}
 	var transport = false;
 	var actions = [
 		function() {return new XMLHttpRequest()},
