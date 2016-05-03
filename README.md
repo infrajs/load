@@ -3,16 +3,18 @@
 Единообразное получение json-ответа php файлов и json данных на сервере и на клиенте.
 
 ## Установка через composer
+```json
 {
 	"require":{
 		"infrajs/load":"~1",
 		"infrajs/collect":"~1"
 	}
 }
+```
 
 ## Использование
 Все зависимости собираются с помощью сборщика [infrajs/collect](https://github.com/infrajs/collect)
-```
+```html
 <script src="-collect/js.php"></script>
 ```
 
