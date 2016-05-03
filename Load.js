@@ -1,3 +1,4 @@
+if(!window.infra) infra = {};
 infra.unload=function(path){//{status:200,value:''};
 	var store=infra.store();
 	delete store['require'][path];
