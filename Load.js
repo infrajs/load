@@ -1,4 +1,5 @@
 if(!window.infra) infra = {};
+window.Load = {};
 infra.unload=function(path){//{status:200,value:''};
 	var store=infra.store();
 	delete store['require'][path];
@@ -51,12 +52,13 @@ infra.require=function(path){
 	 
 }
 
-infra.theme=function(path){
+Load.theme=function(path){
 	//if (/^[\-~!]/.test(path)) path='?'+encodeURI(path);
 	return URN.getRoot()+path;
 }
+infra.theme = Load.theme;
 //infra.theme.prefix = '-nostore=true';
-infra.loadJSON=function(path){
+Load.loadJSON=function(path){
 	var store=infra.store('loadJSON');
 	if(store[path]){
 		return store[path].value;
@@ -71,10 +73,11 @@ infra.loadJSON=function(path){
 	}
 	return store[path].value;
 }
+infra.loadJSON = Load.loadJSON;
 infra._load=function(path){//Такая функция есть в php.. возвращает иногда перменную массив а не строку
 	return infra.loadTEXT(path);
 }
-infra.loadTEXT=function(path){
+Load.loadTEXT=function(path){
 	var store=infra.store('loadTEXT');
 	if(store[path]){
 		return store[path].value;
@@ -112,14 +115,16 @@ infra.loadTEXT=function(path){
 	store[path]=res;
 	return store[path].value;
 }
-infra.forFS=function(str){
+infra.loadTEXT = Load.loadTEXT;
+Load.forFS = function (str) {
 	str=str.replace(/[\+\*<>\'"\|\:\/\\\\#\?\$&\s]/g,' ');
 	str=str.replace(/^\s+/g,'');
 	str=str.replace(/\s+$/g,'');
 	str=str.replace(/\s+/g,' ');
-	//str=str.replace(/\s/g,'-');
+	//str=str.replace(/\s/g,'-'); много переделывать, пробел остаётся посередине как есть. todo вынести этот параметр в конфиг
 	return str;
 }
+infra.forFS=Load.forFS;
 infra.srcinfo=function(src){
 	var store=infra.store('srcinfo');
 	if(store[src])return store[src];
