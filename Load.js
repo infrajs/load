@@ -57,6 +57,9 @@ Load.theme=function(path){
 	//if (/^[\-~!]/.test(path)) path='?'+encodeURI(path);
 	return URN.getRoot()+path;
 }
+if (!window.Path) window.Path = {};
+Path.theme = Load.theme;
+
 infra.theme = Load.theme;
 //infra.theme.prefix = '-nostore=true';
 Load.loadJSON=function(path){
