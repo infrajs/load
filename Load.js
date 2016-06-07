@@ -35,22 +35,23 @@ infra.store.data={
 	"loadJSON":[],
 	"loadTEXT":[]
 }
-infra.require=function(path){
-	var store=infra.store('require');
-	if(store[path])return store[path].value;
-	store[path]={value:true};//Метку надо ставить заранее чтобы небыло зацикливаний
-	var text=infra.loadTEXT(path);
+Load.require = function(path){
+	var store = infra.store('require');
+	if (store[path]) return store[path].value;
+	store[path] = { value: true };//Метку надо ставить заранее чтобы небыло зацикливаний
+	var text = infra.loadTEXT(path);
 	
 	var script = document.createElement('script');
-	script.setAttribute('data-path',path);
+	script.setAttribute('data-path', path);
 	//try{
 	//		script.appendChild(document.createTextNode(text));
 	//}catch(e){//IE script не может иметь вложенный тег http://www.htmlcodetutorial.com/comments/viewtopic.php?p=2801
-		script.text=text;
+		script.text = text;
 	//}
 	document.getElementsByTagName('head')[0].appendChild(script);//document.head в ie не работает
 	 
 }
+infra.require = Load.require;
 
 Load.theme=function(path){
 	//if (/^[\-~!]/.test(path)) path='?'+encodeURI(path);
