@@ -1,12 +1,13 @@
 if(!window.infra) infra = {};
 window.Load = {};
-infra.unload=function(path){//{status:200,value:''};
-	var store=infra.store();
+Load.unload = function (path) { //{status:200,value:''};
+	var store = infra.store();
 	delete store['require'][path];
 	delete store['loadJSON'][path];
 	delete store['loadTEXT'][path];
 	//loadCSS
 }
+infra.unload = Load.unload;
 infra.loadCSS=function(src){
 	var store=infra.store('loadCSS');
 	if(store[src])return;
