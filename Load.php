@@ -80,8 +80,10 @@ class Load {
 			$name = $file;
 		}
 		$fname = $name;
-		preg_match("/^(\d{6})[\s\.]/", $name, $match);
-		$date = @$match[1];
+		preg_match("/^(\d+)[\s\.]/", $name, $match);
+		$num = @$match[1];
+		if (strlen($num) == 6) $date = $num;
+		else $date = null;
 		$name = preg_replace("/^\d+[\s\.]/", '', $name);
 		$ar = explode('@', $name);
 		$id = false;
@@ -100,6 +102,7 @@ class Load {
 		}
 		$ans = array(
 			'id' => $id,
+			'num' => $num,
 			'name' => trim($name),
 			'fname' => $fname,
 			'file' => $file,
