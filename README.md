@@ -27,3 +27,14 @@ $data = Load::loadJSON('path/to/json.php');
 ```
 ## Тестирование
 После установки открыть файл vendor/infrajs/load/tester.php
+
+## API
+
+```php
+
+$fdata = Load::nameInfo($filename); //Возвращает подробный массив описывающий имя файла
+$fdata = Load::srcInfo($filename); //Возвращает подробный массив описывающий путь до файла
+//$fdata содержит name, num, date, ext - всегда в нижнем регистре, file
+Load::sort($list); //Сортирует массив с $fdata по цифре в начале имени файла и по текусту после
+
+```

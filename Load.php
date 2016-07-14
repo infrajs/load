@@ -26,7 +26,21 @@ class Load {
 		Once::clear('Load::load', $path);
 		Once::clear('Load::loadTEXT', $path);
 	}
-
+	public static function sort (&$list) {
+		usort($list, function ($A, $B) {
+			$a = $A['num'];
+			$b = $B['num'];
+			if ($a || $b) {
+				if (!$b) return -1;
+				if (!$a) return 1;
+				if ($a == $b) return 0;
+				return ($a < $b) ? -1 : 1;
+			}
+			$a = $A['name'];
+			$b = $B['name'];
+			return strcasecmp($a, $b);
+		});
+	}
 	public static function srcInfo($src)
 	{
 		$p = explode('?', $src);
