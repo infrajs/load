@@ -21,6 +21,7 @@ use infrajs\path\Path;
 class Load {
 	public static function unload($path)
 	{
+		echo 'clear '.$path.'<br>';
 		Once::clear('Load::req', $path);
 		Once::clear('Load::loadJSON', $path);
 		Once::clear('Load::load', $path);
@@ -130,8 +131,10 @@ class Load {
 	public static function &loadJSON($path)
 	{
 
-		$args=array($path);
-		$res=Once::exec('Load::loadJSON', function ($path){
+		$args = array($path);
+
+		$res = Once::exec('Load::loadJSON', function ($path){
+			echo 'Load '.$path.'<br>';
 			$res=array();
 			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
