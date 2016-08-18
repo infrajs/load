@@ -34,7 +34,7 @@ class Load {
 				if (!$b) return -1;
 				if (!$a) return 1;
 				if ($a == $b) return 0;
-				return ($a < $b) ? -1 : 1;
+				return ($a < $b) ? 1 : -1;
 			}
 			$a = $A['name'];
 			$b = $B['name'];
