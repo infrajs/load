@@ -21,11 +21,10 @@ use infrajs\path\Path;
 class Load {
 	public static function unload($path)
 	{
-		echo 'clear '.$path.'<br>';
-		Once::clear('Load::req', $path);
-		Once::clear('Load::loadJSON', $path);
-		Once::clear('Load::load', $path);
-		Once::clear('Load::loadTEXT', $path);
+		Once::clear('Load::req', [$path]);
+		Once::clear('Load::loadJSON', [$path]);
+		Once::clear('Load::load', [$path]);
+		Once::clear('Load::loadTEXT', [$path]);
 	}
 	public static function sort (&$list) {
 		usort($list, function ($A, $B) {
@@ -134,7 +133,6 @@ class Load {
 		$args = array($path);
 
 		$res = Once::exec('Load::loadJSON', function ($path){
-			echo 'Load '.$path.'<br>';
 			$res=array();
 			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
