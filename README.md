@@ -15,9 +15,9 @@
 ## Использование
 Все javascript зависимости собираются с помощью сборщика [infrajs/collect](https://github.com/infrajs/collect)
 ```html
-<script src="/-collect/js.php"></script>
+<script src="/-collect/?js"></script>
 <script>
-	var data = infra.loadJSON('path/to/json.php');
+	var data = Load.loadJSON('path/to/json.php');
 </script>
 ```
 В php
@@ -35,6 +35,6 @@ $data = Load::loadJSON('path/to/json.php');
 $fdata = Load::nameInfo($filename); //Возвращает подробный массив описывающий имя файла
 $fdata = Load::srcInfo($filename); //Возвращает подробный массив описывающий путь до файла
 //$fdata содержит name, num, date, ext - всегда в нижнем регистре, file
-Load::sort($list); //Сортирует массив с $fdata по цифре в начале имени файла и по текусту после
-
+Load::sort($list, $order); //Сортирует массив с $fdata по цифре в начале имени файла и по текусту
+//Параметр order может быть 'ascending' или 'descending' распространяется только на порядок названий с цифрами в начале. Буквы сортируются в порядке алфавита в обоих случаях
 ```
