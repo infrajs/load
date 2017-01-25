@@ -111,7 +111,7 @@ class Load {
 		}
 		$fname = $name;
 		preg_match("/^(\d+)[\s\.]/", $name, $match);
-		$num = @$match[1];
+		$num = isset($match[1]) ? $match[1] : null;
 		if (strlen($num) == 6) $date = $num;
 		else $date = null;
 		$name = preg_replace("/^\d+[\s\.]/", '', $name);
