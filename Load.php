@@ -81,9 +81,11 @@ class Load {
 				$file = preg_replace("/^\!/", '', $file);
 				$p[] = '!';
 			}
+			$folder = implode('/', $p);
+		} else {
+			$folder = implode('/', $p);
+			if ($folder) $folder .= '/';
 		}
-		$folder = implode('/', $p);
-		if ($folder) $folder .= '/';
 
 		$fdata = Load::nameInfo($file);
 
