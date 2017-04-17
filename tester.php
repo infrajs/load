@@ -22,7 +22,7 @@ assert($ans['path'] === 'test.site.ru/folder/upload.php');
 assert($ans['folder'] === 'test.site.ru/folder/');
 
 $ans = Load::srcInfo('~test.site.ru');
-assert($ans['path'] === '~/test.site.ru');
+assert($ans['path'] === '~test.site.ru');
 
 /**
  * Load::nameInfo - Принимает имя файла и возвращает в массиве следующую информацию по нему:
