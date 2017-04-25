@@ -57,6 +57,35 @@ class Load {
 			});
 		}
 	}
+	public static function pathInfo($file)
+	{
+		$p = explode('/', $file);
+		$file = array_pop($p);
+
+		if (sizeof($p) == 0) {
+			if (preg_match("/^\~/", $file)) {
+				$file = preg_replace("/^\~/", '', $file);
+				$p[] = '~';
+			} else if (preg_match("/^\*/", $file)) {
+				$file = preg_replace("/^\-/", '', $file);
+				$p[] = '-';
+			} else if (preg_match("/^\|/", $file)) {
+				$file = preg_replace("/^\!/", '', $file);
+				$p[] = '!';
+			}
+			$folder = implode('/', $p);
+		} else {
+			$folder = implode('/', $p);
+			if ($folder) $folder .= '/';
+		}
+
+		$fdata = Load::nameInfo($file);
+		$fdata['src'] = $file;
+		$fdata['path'] = $folder.$file;
+		$fdata['folder'] = $folder;
+
+		return $fdata;
+	}
 	public static function srcInfo($src)
 	{
 		$p = explode('?', $src);
@@ -220,7 +249,7 @@ class Load {
 					$path = implode('?', $p);
 				}
 				$load_path = Path::theme($path);
-				$fdata = Load::srcinfo($load_path);
+				$fdata = Load::srcInfo($load_path);
 				if ($load_path && $fdata['file']) {
 					$plug = Path::theme($fdata['path']);
 					if ($fdata['ext'] == 'php') {
