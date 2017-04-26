@@ -45,7 +45,7 @@ assert($ans['file'] === '110316.test@24.txt');
 assert($ans['date'] === '110316');
 assert($ans['ext'] === 'txt');
 
-assert(!!Load::loadTEXT('-load/load.js'));
+assert(!!Load::loadTEXT('-load/Load.js'));
 
 $conf = Load::loadJSON('-load/.infra.json');
 assert($conf['tester']=='tester.php');
