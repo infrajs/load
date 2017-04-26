@@ -261,7 +261,7 @@ class Load {
 						}
 						$GET = $_GET;
 						$_GET = $get;
-						$REQUEST = $_REQUEST;
+						$REQUEST = isset($_REQUEST)?$_REQUEST:array();
 						$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
 
 						$SERVER_QUERY_STRING = $_SERVER['QUERY_STRING'];
