@@ -161,6 +161,13 @@ class Load {
 				$id = false;
 			}
 		}
+
+		$r = preg_match('/^(.*)#([^\s]+)(.*)$/', $name, $m);
+		if ($r) {
+			$name = $m[1].$m[3];
+			$id = $m[2];
+		}
+
 		$ans = array(
 			'id' => $id,
 			'num' => $num,
@@ -248,7 +255,7 @@ class Load {
 					$p[0] .= 'index.php';
 					$path = implode('?', $p);
 				}
-				$load_path = Path::theme($path);
+				$load_path = Path::themeq($path);
 				$fdata = Load::srcInfo($load_path);
 				if ($load_path && $fdata['file']) {
 					$plug = Path::theme($fdata['path']);
@@ -264,8 +271,11 @@ class Load {
 						$REQUEST = isset($_REQUEST)?$_REQUEST:array();
 						$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
 
+
+						$SERVER_REQUEST_URI = $_SERVER['REQUEST_URI'];
 						$SERVER_QUERY_STRING = $_SERVER['QUERY_STRING'];
 						$_SERVER['QUERY_STRING'] = $getstr;
+						$_SERVER['REQUEST_URI'] = '/'.$path;
 
 						$from_php_old = Load::isphp();
 						Load::isphp(true);
@@ -288,6 +298,7 @@ class Load {
 						}
 
 						$_SERVER['QUERY_STRING'] = $SERVER_QUERY_STRING;
+						$_SERVER['REQUEST_URI'] = $SERVER_REQUEST_URI;
 						$_REQUEST = &$REQUEST;
 						$_GET = &$GET;
 						$data = $result;
