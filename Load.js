@@ -103,16 +103,16 @@ Load.loadTEXT=function(path){
 	transport.setRequestHeader("Content-Type", "text/plain; charset=UTF-8");
 	transport.send(null);
 	var res={};
-	if(transport.readyState==4){
-		if(transport.status == 200){
-			res.status=200;
-			res.value=transport.responseText;
-		}else{
-			res.status=transport.status;
-			res.value='';
+	if (transport.readyState == 4){
+		if (transport.status == 200){
+			res.status = 200;
+			res.value = transport.responseText;
+		} else {
+			res.status = transport.status;
+			res.value = transport.responseText;
 		}
 	}
-	store[path]=res;
+	store[path] = res;
 	return store[path].value;
 }
 infra.loadTEXT = Load.loadTEXT;
