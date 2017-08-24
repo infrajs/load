@@ -243,6 +243,7 @@ class Load {
 	}
 	private static function load($path)
 	{
+
 		$args=array($path);
 		$res = Once::exec('Load::load', function ($path){
 			//php файлы эмитация веб запроса
@@ -250,11 +251,11 @@ class Load {
 			$_r_e_s_=array();
 			$_r_e_s_['cache'] = !Nostore::check(function () use ($path, &$_r_e_s_) {
 
-				if (Path::isDir($path)) {
+				/*if (Path::isDir($path)) {
 					$p=explode('?', $path, 2);
 					$p[0] .= 'index.php';
 					$path = implode('?', $p);
-				}
+				}*/
 				$load_path = Path::themeq($path);
 				$fdata = Load::srcInfo($load_path);
 				if ($load_path && $fdata['file']) {
