@@ -29,8 +29,8 @@ class Load {
 	public static function sort (&$list, $order = 'descending') {
 		if ($order == 'descending') {
 			usort($list, function ($A, $B) {
-				$a = $A['num'];
-				$b = $B['num'];
+				$a = isset($A['num'])? $A['num']: (isset($A['date'])? $A['date']: 0);
+				$b = isset($B['num'])? $B['num']: (isset($B['date'])? $B['date']: 0);
 				if ($a || $b) {
 					if (!$b) return -1;
 					if (!$a) return 1;
@@ -43,8 +43,8 @@ class Load {
 			});
 		} else if ($order == 'ascending') {
 			usort($list, function ($A, $B) {
-				$a = $A['num'];
-				$b = $B['num'];
+				$a = isset($A['num'])? $A['num']: (isset($A['date'])? $A['date']: 0);
+				$b = isset($B['num'])? $B['num']: (isset($B['date'])? $B['date']: 0);
 				if ($a || $b) {
 					if (!$b) return -1;
 					if (!$a) return 1;
