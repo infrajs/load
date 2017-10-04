@@ -51,6 +51,10 @@ class Load {
 					if ($a == $b) return 0;
 					return ($a < $b) ? -1 : 1;
 				}
+				$a = isset($A['num'])? $A['num']: (isset($A['date'])? $A['date']: 0);
+				$b = isset($B['num'])? $B['num']: (isset($B['date'])? $B['date']: 0);
+				if (!isset($B['name'])) return 0;
+				if (!isset($A['name'])) return 0;
 				$a = $A['name'];
 				$b = $B['name'];
 				return strcasecmp($a, $b);
