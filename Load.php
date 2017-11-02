@@ -133,7 +133,7 @@ class Load {
 	{
 		//Имя файла без папок// Звёздочки быть не может
 		$p = explode('.', $file);
-		if (sizeof($p) > 1) {
+		if (sizeof($p) > 1 && strlen($p[sizeof($p)-1])<5) {
 			$ext = array_pop($p);
 			$name = implode('.', $p);
 			if (!$name) {
