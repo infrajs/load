@@ -252,7 +252,8 @@ class Load {
 		$res = Once::exec('Load::load', function ($path){
 			//php файлы эмитация веб запроса
 			//всё остальное file_get_content
-			$_r_e_s_=array();
+			$_r_e_s_ = array();
+			$_r_e_s_['unload'] = false;
 			$_r_e_s_['cache'] = !Nostore::check(function () use ($path, &$_r_e_s_) {
 
 				/*if (Path::isDir($path)) {
@@ -265,6 +266,7 @@ class Load {
 				if ($load_path && $fdata['file']) {
 					$plug = Path::theme($fdata['path']);
 					if ($fdata['ext'] == 'php') {
+						
 						$getstr = Path::toutf($fdata['query']);//get параметры в utf8, с вопросом
 						$getstr = preg_replace("/^\?/", '', $getstr);
 						parse_str($getstr, $get);
@@ -307,12 +309,13 @@ class Load {
 						$_REQUEST = &$REQUEST;
 						$_GET = &$GET;
 						$data = $result;
-
+						$_r_e_s_=array(); //Если в include это имя использовалось. Главное чтобы оно небыло ссылкой &
+						$_r_e_s_['unload'] = true;
 						//$data='php file';
 					} else {
 						$data = file_get_contents($plug);
 					}
-					$_r_e_s_=array(); //Если в include это имя использовалось. Главное чтобы оно небыло ссылкой &
+					
 					$_r_e_s_['status'] = 200;
 					$_r_e_s_['value'] = $data;
 				} else {
@@ -322,7 +325,9 @@ class Load {
 			});
 			return $_r_e_s_;
 		}, $args);
-
+		if ($res['unload']) {
+			Load::unload($path);
+		}
 		if (!$res['cache']) Nostore::on();
 		return $res['value'];
 	}
