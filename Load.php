@@ -21,10 +21,10 @@ use infrajs\path\Path;
 class Load {
 	public static function unload($path)
 	{
-		Once::clear('Load::req', [$path]);
-		Once::clear('Load::loadJSON', [$path]);
+		//Once::clear('Load::req', [$path]);
+		//Once::clear('Load::loadJSON', [$path]);
 		Once::clear('Load::load', [$path]);
-		Once::clear('Load::loadTEXT', [$path]);
+		//Once::clear('Load::loadTEXT', [$path]);
 	}
 	public static function sort (&$list, $order = 'descending') {
 		if ($order == 'descending') {
@@ -190,7 +190,7 @@ class Load {
 
 		$args = array($path);
 
-		$res = Once::exec('Load::loadJSON', function ($path){
+		//$res = Once::exec('Load::loadJSON', function ($path){
 			$res=array();
 			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
@@ -200,8 +200,8 @@ class Load {
 			} else {
 				$res['value'] = $text;
 			}
-			return $res;
-		}, $args);
+		//	return $res;
+		//}, $args);
 		
 		if (!$res['cache']) Nostore::on();
 		return $res['value'];
@@ -211,7 +211,7 @@ class Load {
 	public static function &loadTEXT($path)
 	{
 		$args=array($path);
-		$res=Once::exec('Load::loadTEXT', function ($path){
+		//$res=Once::exec('Load::loadTEXT', function ($path){
 			$res=array();
 			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
@@ -222,8 +222,8 @@ class Load {
 			} else {
 				$res['value'] = $text;
 			}
-			return $res;
-		}, $args);
+		//	return $res;
+		//}, $args);
 	
 		
 		if (!$res['cache']) Nostore::on();
@@ -249,11 +249,12 @@ class Load {
 	{
 
 		$args=array($path);
-		$res = Once::exec('Load::load', function ($path){
+		Once::$nextgid = 'Load::load';
+		$res = Once::func(function ($path){
 			//php файлы эмитация веб запроса
 			//всё остальное file_get_content
 			$_r_e_s_ = array();
-			$_r_e_s_['unload'] = false;
+			//$_r_e_s_['unload'] = false;
 			$_r_e_s_['cache'] = !Nostore::check(function () use ($path, &$_r_e_s_) {
 
 				/*if (Path::isDir($path)) {
@@ -310,7 +311,7 @@ class Load {
 						$_GET = &$GET;
 						$data = $result;
 						$_r_e_s_=array(); //Если в include это имя использовалось. Главное чтобы оно небыло ссылкой &
-						$_r_e_s_['unload'] = true;
+						//$_r_e_s_['unload'] = true;
 						//$data='php file';
 					} else {
 						$data = file_get_contents($plug);
@@ -325,9 +326,9 @@ class Load {
 			});
 			return $_r_e_s_;
 		}, $args);
-		if ($res['unload']) {
-			Load::unload($path);
-		}
+		//if ($res['unload']) {
+		//	Load::unload($path);
+		//}
 		if (!$res['cache']) Nostore::on();
 		return $res['value'];
 	}
