@@ -192,7 +192,7 @@ class Load {
 
 		//$res = Once::exec('Load::loadJSON', function ($path){
 			$res=array();
-			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
+			$res['nostore'] = Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
 			});
 			if (is_string($text)) {
@@ -203,7 +203,7 @@ class Load {
 		//	return $res;
 		//}, $args);
 		
-		if (!$res['cache']) Nostore::on();
+		if ($res['nostore']) Nostore::on();
 		return $res['value'];
 		
 		return $res['value'];
@@ -213,7 +213,7 @@ class Load {
 		$args=array($path);
 		//$res=Once::exec('Load::loadTEXT', function ($path){
 			$res=array();
-			$res['cache'] = !Nostore::check(function () use ($path, &$text) {
+			$res['nostore'] = Nostore::check(function () use ($path, &$text) {
 				$text = Load::load($path);
 			});
 			if (is_null($text)) $text = '';
@@ -226,7 +226,7 @@ class Load {
 		//}, $args);
 	
 		
-		if (!$res['cache']) Nostore::on();
+		if ($res['nostore']) Nostore::on();
 		return $res['value'];
 		
 		return $res['value'];
@@ -248,14 +248,14 @@ class Load {
 	private static function load($path)
 	{
 
-		$args=array($path);
+		$args = array($path);
 		Once::$nextgid = 'Load::load';
 		$res = Once::func(function ($path){
 			//php файлы эмитация веб запроса
 			//всё остальное file_get_content
 			$_r_e_s_ = array();
 			//$_r_e_s_['unload'] = false;
-			$_r_e_s_['cache'] = !Nostore::check(function () use ($path, &$_r_e_s_) {
+			$_r_e_s_['nostore'] = Nostore::check(function () use ($path, &$_r_e_s_) {
 
 				/*if (Path::isDir($path)) {
 					$p=explode('?', $path, 2);
@@ -329,7 +329,7 @@ class Load {
 		//if ($res['unload']) {
 		//	Load::unload($path);
 		//}
-		if (!$res['cache']) Nostore::on();
+		if ($res['nostore']) Nostore::on();
 		return $res['value'];
 	}
 	/*
