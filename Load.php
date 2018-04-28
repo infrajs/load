@@ -145,13 +145,22 @@ class Load {
 			$name = $file;
 		}
 		$fname = $name;
+		/*
 		preg_match("/^(\d+)[\s\.]/", $name, $match);
 		$num = isset($match[1]) ? $match[1] : null;
 		if (strlen($num) == 6) $date = $num;
 		else $date = null;
 		$name = preg_replace("/^\d+[\s\.]/", '', $name);
-		$ar = explode('@', $name);
+`		*/
+
+		preg_match("/^(\d+)[\s]/", $name, $match);
+		$num = isset($match[1]) ? $match[1] : null;
+		if (strlen($num) == 6) $date = $num;
+		else $date = null;
+		$name = preg_replace("/^\d+[\s]/", '', $name);
+
 		$id = false;
+		/*$ar = explode('@', $name);
 		if (sizeof($ar) > 1) {
 			$id = array_pop($ar);
 			if (!$id) {
@@ -164,7 +173,7 @@ class Load {
 			} else {
 				$id = false;
 			}
-		}
+		}*/
 
 		$r = preg_match('/^(.*)#([^\s]+)(.*)$/', $name, $m);
 		if ($r) {
