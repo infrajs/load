@@ -175,7 +175,7 @@ class Load {
 			}
 		}*/
 
-		$r = preg_match('/^(.*)#([^\s]+)(.*)$/', $name, $m);
+		$r = preg_match('/^(.*)[@#]([^\s]+)(.*)$/', $name, $m);
 		if ($r) {
 			$name = $m[1].$m[3];
 			$id = $m[2];
