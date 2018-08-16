@@ -37,11 +37,11 @@ assert($ans['path'] === '~test.site.ru');
  * 'ext' => строковое расширение файла (php, xml, xlsx и т.п.)
  */
 
-$ans = Load::nameInfo('110316.test@24.txt');
+$ans = Load::nameInfo('110316 test@24.txt');
 assert($ans['id'] === '24');
 assert($ans['name'] === 'test');
-assert($ans['fname'] === '110316.test@24');
-assert($ans['file'] === '110316.test@24.txt');
+assert($ans['fname'] === '110316 test@24');
+assert($ans['file'] === '110316 test@24.txt');
 assert($ans['date'] === '110316');
 assert($ans['ext'] === 'txt');
 
