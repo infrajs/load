@@ -1,9 +1,12 @@
 {
-	"pub":["cdncss","cdnjs"],
+	"pub":["cdncss","cdnjs","cdndeps"],
 	"require":"infra.php",
 	"js":"Load.js",
 	"dependencies":"path",
 	"tester":"tester.php",
+	"cdndeps":{
+		"magnific-popup":["jquery"]
+	},
 	"cdnjs":{
 
 	},
