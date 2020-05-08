@@ -254,7 +254,7 @@ class Load {
 			$FROM_PHP_PLUGIN = $val;
 		}
 	}
-	private static function load($path)
+	public static function load($path)
 	{
 
 		$args = array($path);
