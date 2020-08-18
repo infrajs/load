@@ -1,6 +1,7 @@
 <?php
+
 namespace infrajs\load;
-use infrajs\once\Once;
+
 use infrajs\nostore\Nostore;
 use infrajs\path\Path;
 
@@ -18,19 +19,23 @@ use infrajs\path\Path;
 	Load::loadJSON
 */
 
-class Load {
+class Load
+{
+	public static $once = array();
 	public static function unload($path)
 	{
 		//Once::clear('Load::req', [$path]);
 		//Once::clear('Load::loadJSON', [$path]);
-		Once::clear('Load::load', [$path]);
+		$key = 'load:' . $path;
+		unset(Load::$once[$key]);
 		//Once::clear('Load::loadTEXT', [$path]);
 	}
-	public static function sort (&$list, $order = 'descending') {
+	public static function sort(&$list, $order = 'descending')
+	{
 		if ($order == 'descending') {
 			usort($list, function ($A, $B) {
-				$a = isset($A['num'])? $A['num']: (isset($A['date'])? $A['date']: 0);
-				$b = isset($B['num'])? $B['num']: (isset($B['date'])? $B['date']: 0);
+				$a = isset($A['num']) ? $A['num'] : (isset($A['date']) ? $A['date'] : 0);
+				$b = isset($B['num']) ? $B['num'] : (isset($B['date']) ? $B['date'] : 0);
 				if ($a || $b) {
 					if (!$b) return -1;
 					if (!$a) return 1;
@@ -43,16 +48,16 @@ class Load {
 			});
 		} else if ($order == 'ascending') {
 			usort($list, function ($A, $B) {
-				$a = isset($A['num'])? $A['num']: (isset($A['date'])? $A['date']: 0);
-				$b = isset($B['num'])? $B['num']: (isset($B['date'])? $B['date']: 0);
+				$a = isset($A['num']) ? $A['num'] : (isset($A['date']) ? $A['date'] : 0);
+				$b = isset($B['num']) ? $B['num'] : (isset($B['date']) ? $B['date'] : 0);
 				if ($a || $b) {
 					if (!$b) return -1;
 					if (!$a) return 1;
 					if ($a == $b) return 0;
 					return ($a < $b) ? -1 : 1;
 				}
-				$a = isset($A['num'])? $A['num']: (isset($A['date'])? $A['date']: 0);
-				$b = isset($B['num'])? $B['num']: (isset($B['date'])? $B['date']: 0);
+				$a = isset($A['num']) ? $A['num'] : (isset($A['date']) ? $A['date'] : 0);
+				$b = isset($B['num']) ? $B['num'] : (isset($B['date']) ? $B['date'] : 0);
 				if (!isset($B['name'])) return 0;
 				if (!isset($A['name'])) return 0;
 				$a = $A['name'];
@@ -85,7 +90,7 @@ class Load {
 
 		$fdata = Load::nameInfo($file);
 		$fdata['src'] = $file;
-		$fdata['path'] = $folder.$file;
+		$fdata['path'] = $folder . $file;
 		$fdata['folder'] = $folder;
 
 		return $fdata;
@@ -95,7 +100,7 @@ class Load {
 		$p = explode('?', $src);
 		$file = array_shift($p);
 		if ($p) {
-			$query = '?'.implode('?', $p);
+			$query = '?' . implode('?', $p);
 		} else {
 			$query = '';
 		}
@@ -124,7 +129,7 @@ class Load {
 
 		$fdata['query'] = $query;
 		$fdata['src'] = $src;
-		$fdata['path'] = $folder.$file;
+		$fdata['path'] = $folder . $file;
 		$fdata['folder'] = $folder;
 
 		return $fdata;
@@ -133,7 +138,7 @@ class Load {
 	{
 		//Имя файла без папок// Звёздочки быть не может
 		$p = explode('.', $file);
-		if (sizeof($p) > 1 && strlen($p[sizeof($p)-1])<5) {
+		if (sizeof($p) > 1 && strlen($p[sizeof($p) - 1]) < 5) {
 			$ext = array_pop($p);
 			$name = implode('.', $p);
 			if (!$name) {
@@ -177,7 +182,7 @@ class Load {
 
 		$r = preg_match('/^(.*)[@#]([^\s]+)(.*)$/', $name, $m);
 		if ($r) {
-			$name = $m[1].$m[3];
+			$name = $m[1] . $m[3];
 			$id = $m[2];
 		}
 
@@ -196,48 +201,49 @@ class Load {
 
 	public static function &loadJSON($path)
 	{
+		$text = Load::load($path);
+		if (is_string($text)) $text = Load::json_decode($text);
+		return $text;
 
-		$args = array($path);
+		// //$args = array($path);
 
-		//$res = Once::exec('Load::loadJSON', function ($path){
-			$res=array();
-			$res['nostore'] = Nostore::check(function () use ($path, &$text) {
-				$text = Load::load($path);
-			});
-			if (is_string($text)) {
-				$res['value'] = Load::json_decode($text);
-			} else {
-				$res['value'] = $text;
-			}
-		//	return $res;
-		//}, $args);
-		
-		if ($res['nostore']) Nostore::on();
-		return $res['value'];
-		
-		return $res['value'];
+		// //$res = Once::exec('Load::loadJSON', function ($path){
+		// $res=array();
+		// $res['nostore'] = Nostore::check(function () use ($path, &$text) {
+		// 	$text = Load::load($path);
+		// });
+		// if (is_string($text)) {
+		// 	$res['value'] = Load::json_decode($text);
+		// } else {
+		// 	$res['value'] = $text;
+		// }
+		// //	return $res;
+		// //}, $args);
+
+		// //if ($res['nostore']) Nostore::on();
+		// return $res['value'];
+
+		// return $res['value'];
 	}
 	public static function &loadTEXT($path)
 	{
-		$args=array($path);
+		//$args=array($path);
 		//$res=Once::exec('Load::loadTEXT', function ($path){
-			$res=array();
-			$res['nostore'] = Nostore::check(function () use ($path, &$text) {
-				$text = Load::load($path);
-			});
-			if (is_null($text)) $text = '';
-			if (!is_string($text)) {
-				$res['value'] = Load::json_encode($text);
-			} else {
-				$res['value'] = $text;
-			}
+		$res = array();
+		$res['nostore'] = Nostore::check(function () use ($path, &$text) {
+			$text = Load::load($path);
+		});
+		if (is_null($text)) $text = '';
+		if (!is_string($text)) {
+			$res['value'] = Load::json_encode($text);
+		} else {
+			$res['value'] = $text;
+		}
 		//	return $res;
 		//}, $args);
-	
-		
-		if ($res['nostore']) Nostore::on();
-		return $res['value'];
-		
+
+
+		//if ($res['nostore']) Nostore::on();
 		return $res['value'];
 	}
 	/**
@@ -257,89 +263,90 @@ class Load {
 	public static function load($path)
 	{
 
-		$args = array($path);
-		Once::$nextgid = 'Load::load';
-		$res = Once::func(function ($path){
-			//php файлы эмитация веб запроса
-			//всё остальное file_get_content
-			$_r_e_s_ = array();
-			//$_r_e_s_['unload'] = false;
-			$_r_e_s_['nostore'] = Nostore::check(function () use ($path, &$_r_e_s_) {
 
-				/*if (Path::isDir($path)) {
-					$p=explode('?', $path, 2);
-					$p[0] .= 'index.php';
-					$path = implode('?', $p);
-				}*/
-				$load_path = Path::themeq($path);
-				$fdata = Load::srcInfo($load_path);
-				if ($load_path && $fdata['file']) {
-					$plug = Path::theme($fdata['path']);
-					if ($fdata['ext'] == 'php') {
-						
-						$getstr = Path::toutf($fdata['query']);//get параметры в utf8, с вопросом
-						$getstr = preg_replace("/^\?/", '', $getstr);
-						parse_str($getstr, $get);
-						if (!$get) {
-							$get = array();
-						}
-						$GET = $_GET;
-						$_GET = $get;
-						$REQUEST = isset($_REQUEST)?$_REQUEST:array();
-						$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
+		$key = 'load:' . $path;
+		if (isset(Load::$once[$key])) {
+			if (Load::$once[$key]['nostore']) Nostore::on();
+			return Load::$once[$key]['result'];
+		}
 
+		//php файлы эмитация веб запроса
+		//всё остальное file_get_content
+		$_r_e_s_ = array();
+		//$_r_e_s_['unload'] = false;
+		$_r_e_s_['nostore'] = Nostore::check(function () use ($path, &$_r_e_s_) {
 
-						$SERVER_REQUEST_URI = $_SERVER['REQUEST_URI'];
-						$SERVER_QUERY_STRING = $_SERVER['QUERY_STRING'];
-						$_SERVER['QUERY_STRING'] = $getstr;
-						$_SERVER['REQUEST_URI'] = '/'.$path;
+			/*if (Path::isDir($path)) {
+				$p=explode('?', $path, 2);
+				$p[0] .= 'index.php';
+				$path = implode('?', $p);
+			}*/
+			$load_path = Path::themeq($path);
+			$fdata = Load::srcInfo($load_path);
+			if ($load_path && $fdata['file']) {
+				$plug = Path::theme($fdata['path']);
+				if ($fdata['ext'] == 'php') {
 
-						$from_php_old = Load::isphp();
-						Load::isphp(true);
-
-						ob_start();
-						//headers надо ловить
-						$ans = array();
-						$rrr = include $plug;
-						$result = ob_get_contents();
-						$resecho = $result;
-						ob_end_clean();
-
-						Load::isphp($from_php_old);
-
-						if ($rrr !== 1 && !is_null($rrr)) { //Есть возвращённый результат
-							$result = $rrr;
-							if ($resecho) { //Сообщение об ошибке... далее всё ломаем
-								$result = $resecho.Load::json_encode($result); //Есть вывод в браузер и return
-							}
-						}
-
-						$_SERVER['QUERY_STRING'] = $SERVER_QUERY_STRING;
-						$_SERVER['REQUEST_URI'] = $SERVER_REQUEST_URI;
-						$_REQUEST = &$REQUEST;
-						$_GET = &$GET;
-						$data = $result;
-						$_r_e_s_=array(); //Если в include это имя использовалось. Главное чтобы оно небыло ссылкой &
-						//$_r_e_s_['unload'] = true;
-						//$data='php file';
-					} else {
-						$data = file_get_contents($plug);
+					$getstr = Path::toutf($fdata['query']); //get параметры в utf8, с вопросом
+					$getstr = preg_replace("/^\?/", '', $getstr);
+					parse_str($getstr, $get);
+					if (!$get) {
+						$get = array();
 					}
-					
-					$_r_e_s_['status'] = 200;
-					$_r_e_s_['value'] = $data;
+					$GET = $_GET;
+					$_GET = $get;
+					$REQUEST = isset($_REQUEST) ? $_REQUEST : array();
+					$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
+
+
+					$SERVER_REQUEST_URI = $_SERVER['REQUEST_URI'];
+					$SERVER_QUERY_STRING = $_SERVER['QUERY_STRING'];
+					$_SERVER['QUERY_STRING'] = $getstr;
+					$_SERVER['REQUEST_URI'] = '/' . $path;
+
+					$from_php_old = Load::isphp();
+					Load::isphp(true);
+
+					ob_start();
+					//headers надо ловить
+					$ans = array();
+					$rrr = include $plug;
+					$result = ob_get_contents();
+					$resecho = $result;
+					ob_end_clean();
+
+					Load::isphp($from_php_old);
+
+					if ($rrr !== 1 && !is_null($rrr)) { //Есть возвращённый результат
+						$result = $rrr;
+						if ($resecho) { //Сообщение об ошибке... далее всё ломаем
+							$result = $resecho . Load::json_encode($result); //Есть вывод в браузер и return
+						}
+					}
+
+					$_SERVER['QUERY_STRING'] = $SERVER_QUERY_STRING;
+					$_SERVER['REQUEST_URI'] = $SERVER_REQUEST_URI;
+					$_REQUEST = &$REQUEST;
+					$_GET = &$GET;
+					$data = $result;
+					$_r_e_s_ = array(); //Если в include это имя использовалось. Главное чтобы оно небыло ссылкой &
+					//$_r_e_s_['unload'] = true;
+					//$data='php file';
 				} else {
-					$_r_e_s_['status'] = 404;
-					$_r_e_s_['value'] = '';
+					$data = file_get_contents($plug);
 				}
-			});
-			return $_r_e_s_;
-		}, $args);
-		//if ($res['unload']) {
-		//	Load::unload($path);
-		//}
-		if ($res['nostore']) Nostore::on();
-		return $res['value'];
+
+				$_r_e_s_['status'] = 200;
+				$_r_e_s_['value'] = $data;
+			} else {
+				$_r_e_s_['status'] = 404;
+				$_r_e_s_['value'] = '';
+			}
+		});
+
+		if ($_r_e_s_['nostore']) Nostore::on();
+		Load::$once[$key] = ['result'=>$_r_e_s_['value'], 'nostore' => $_r_e_s_['nostore']];
+		return Load::$once[$key]['result'];
 	}
 	/*
 	//Мультизагрузка нет, используется script.php
@@ -369,10 +376,10 @@ class Load {
 	{
 		//soft если об ошибке не нужно сообщать
 		//$json2 = preg_replace("#(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)#", '', $json);
-		
-		$data = json_decode($json, true, 512);//JSON_BIGINT_AS_STRING в javascript тоже нельзя такие цифры... архитектурная ошибка.
+
+		$data = json_decode($json, true, 512); //JSON_BIGINT_AS_STRING в javascript тоже нельзя такие цифры... архитектурная ошибка.
 		if (!$soft && $json && is_null($data) && !in_array($json, array('null'))) {
-			echo "\n".'<pre>'."\n";
+			echo "\n" . '<pre>' . "\n";
 			var_dump($json);
 			var_dump($data);
 			throw new \Exception("json_decode error");

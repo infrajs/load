@@ -2,7 +2,6 @@
 	"name": "infrajs/load",
 	"homepage":"https://github.com/infrajs/load",
 	"require":{
-		"infrajs/once":"~1",
 		"infrajs/nostore":"~1",
 		"infrajs/path":"~1",
 		"infrajs/ans":"~1"
