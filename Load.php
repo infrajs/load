@@ -296,7 +296,7 @@ class Load
 					$GET = $_GET;
 					$_GET = $get;
 					$REQUEST = isset($_REQUEST) ? $_REQUEST : array();
-					$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
+					$_REQUEST = array_merge($_GET, $_POST);
 
 
 					$SERVER_REQUEST_URI = $_SERVER['REQUEST_URI'];
