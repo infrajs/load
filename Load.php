@@ -137,6 +137,8 @@ class Load
 	public static function nameInfo($file)
 	{
 		//Имя файла без папок// Звёздочки быть не может
+		$num = null;
+		$date = null;
 		$p = explode('.', $file);
 		if (sizeof($p) > 1 && strlen($p[sizeof($p) - 1]) < 5) {
 			$ext = array_pop($p);
@@ -150,36 +152,28 @@ class Load
 			$name = $file;
 		}
 		$fname = $name;
-		/*
-		preg_match("/^(\d+)[\s\.]/", $name, $match);
-		$num = isset($match[1]) ? $match[1] : null;
-		if (strlen($num) == 6) $date = $num;
-		else $date = null;
-		$name = preg_replace("/^\d+[\s\.]/", '', $name);
-`		*/
-
-		preg_match("/^(\d+)[\s]/", $name, $match);
-		$num = isset($match[1]) ? $match[1] : null;
-		if (strlen($num) == 6) $date = $num;
-		else $date = null;
-		$name = preg_replace("/^\d+[\s]/", '', $name);
-
+	
+		//Цифры в конце
+		preg_match("/^(.*)\((\d+)\)$/", $name, $match);
+		if (isset($match[2])) {
+			$num = $match[2];
+			$name = $match[1];
+		}
+		
+		//Цифры в начале
+		preg_match("/^(\d+)[\s](.*)$/", $name, $match);
+		if (isset($match[1]) && isset($match[2])) {
+			if (is_null($num)) {
+				$num =  $match[1];
+				$name = $match[2];
+			}
+			if (strlen($match[1]) == 6) {
+				$date = $match[1];
+				$name = $match[2];
+			}
+		}
+		
 		$id = false;
-		/*$ar = explode('@', $name);
-		if (sizeof($ar) > 1) {
-			$id = array_pop($ar);
-			if (!$id) {
-				$id = 0;
-			}
-			$idi = (int) $id;
-			$idi = (string) $idi;//12 = '12 asdf' а если и то и то строка '12'!='12 asdf'
-			if ($id == $idi) {
-				$name = implode('@', $ar);
-			} else {
-				$id = false;
-			}
-		}*/
-
 		$r = preg_match('/^(.*)[@#]([^\s]+)(.*)$/', $name, $m);
 		if ($r) {
 			$name = $m[1] . $m[3];
