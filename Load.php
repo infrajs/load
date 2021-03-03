@@ -189,6 +189,11 @@ class Load
 			'date' => $date,
 			'ext' => mb_strtolower($ext),
 		);
+		
+		if (!$ans['name']) {
+			$ans['name'] = $ans['date'];
+			$ans['date'] = null;
+		}
 
 		return $ans;
 	}
