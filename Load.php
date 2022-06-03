@@ -153,8 +153,14 @@ class Load
 		}
 		$fname = $name;
 	
-		//Цифры в конце
+		//Цифры в конце в скобках
 		preg_match("/^(.*)\((\d+)\)$/", $name, $match);
+		if (isset($match[2])) {
+			$num = $match[2];
+			$name = $match[1];
+		}
+		//Цифры в конце после нижнего подчёркивания
+		preg_match("/^(.*)_(\d+)$/", $name, $match);
 		if (isset($match[2])) {
 			$num = $match[2];
 			$name = $match[1];
