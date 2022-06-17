@@ -186,8 +186,19 @@ class Load
 			$id = $m[2];
 		}
 
+		//Определяем язык файла
+		$lang = '';
+		$r = preg_match("/^(.*)\-(en|ru)$/", $name, $m);
+		if ($r) {
+			$name = $m[1];
+			$lang = $m[2];
+		}
+
+
+		
 		$ans = array(
 			'id' => $id,
+			'lang' => $lang,
 			'num' => $num,
 			'name' => trim($name),
 			'fname' => $fname,
